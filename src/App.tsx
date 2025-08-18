@@ -21,23 +21,18 @@ function App() {
       onReady: function(video: any) {
         console.log("Vídeo carregado");
         
-        video.bind("end", function() {
-          console.log("Vídeo terminou");
+        // Liberar botão após 2 minutos (120 segundos)
+        setTimeout(() => {
+          console.log("2 minutos passaram - liberando botão");
           setVideoEnded(true);
-          
-          // Delay para criar suspense antes de mostrar o botão
-          setTimeout(() => {
-            setShowButton(true);
-          }, 2000);
-        });
+          setShowButton(true);
+        }, 120000); // 120000ms = 2 minutos
       }
     });
   }, []);
 
   const handleCTAClick = () => {
-    if (videoEnded) {
-      window.open('https://go.disruptybr.com.br/xfuemwpvjf', '_blank');
-    }
+    window.open('https://go.disruptybr.com.br/xfuemwpvjf', '_blank');
   };
 
   return (
@@ -75,18 +70,6 @@ function App() {
               aspect="1.0"
               className="w-full"
             ></wistia-player>
-            
-            {/* Overlay quando vídeo não terminou */}
-            {!videoEnded && (
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <div className="text-center">
-                  <Play className="w-16 h-16 text-white mx-auto mb-4 opacity-70" />
-                  <p className="text-white font-semibold text-lg">
-                    Assista até o final para liberar a oferta
-                  </p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
@@ -96,7 +79,7 @@ function App() {
             <div className="flex items-center justify-center gap-2">
               <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
               <span className="text-yellow-300 font-semibold">
-                Aguardando conclusão do vídeo...
+                Aguardando liberação da oferta...
               </span>
             </div>
           </div>
@@ -109,7 +92,7 @@ function App() {
               <div className="flex items-center justify-center gap-2">
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 <span className="text-green-300 font-semibold text-sm">
-                  ✅ Vídeo concluído! Oferta liberada
+                  ✅ Oferta liberada! Acesso garantido
                 </span>
               </div>
             </div>
@@ -139,7 +122,7 @@ function App() {
               </div>
             </div>
             <p className="text-gray-400 text-sm mt-3 font-medium">
-              Complete o vídeo para desbloquear
+              Aguarde para desbloquear
             </p>
           </div>
         )}
