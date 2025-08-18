@@ -15,20 +15,18 @@ function App() {
     // Inicializar a fila do Wistia se não existir
     window._wq = window._wq || [];
 
-    // Configurar o listener do Wistia
-    window._wq.push({
-      id: "m8e333g9y9",
-      onReady: function(video: any) {
-        console.log("Vídeo carregado");
-        
-        // Liberar botão após 2 minutos (120 segundos)
-        setTimeout(() => {
-          console.log("2 minutos passaram - liberando botão");
-          setVideoEnded(true);
-          setShowButton(true);
-        }, 120000); // 120000ms = 2 minutos
-      }
-    });
+    // Liberar botão após 2 minutos (120 segundos) - independente do vídeo
+    console.log("Timer de 2 minutos iniciado");
+    const timer = setTimeout(() => {
+      console.log("2 minutos passaram - liberando botão");
+      setVideoEnded(true);
+      setShowButton(true);
+    }, 120000); // 120000ms = 2 minutos
+
+    // Cleanup do timer se o componente for desmontado
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   const handleCTAClick = () => {
